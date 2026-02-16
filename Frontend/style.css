@@ -1,0 +1,704 @@
+/* =================== BASE / GLOBAL =================== */
+
+:root {
+  --bg-card: #ffffff;
+  --bg-card-soft: rgba(255, 255, 255, 0.86);
+  --border-soft: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --accent-blue: #2563eb;
+  --accent-orange: #f97316;
+  --accent-gray: #6b7280;
+  --chip-bg: #e5f2ff;
+  --chip-text: #1d4ed8;
+  --radius-lg: 18px;
+  --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.18);
+  --shadow-subtle: 0 10px 25px rgba(15, 23, 42, 0.12);
+  --transition-fast: 0.18s ease-out;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+body.has-bg {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  font-size: 15px;
+  color: var(--text-main);
+  background: url("bg.png") center/cover fixed no-repeat; /* ONLY the image */
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* =================== LAYOUT HELPERS =================== */
+
+.container {
+  max-width: 1420px;               /* wider so big tiles fit nicely */
+  margin: 0 auto;
+  padding: 2.3rem 1.5rem 2.8rem;
+}
+
+.section {
+  padding-bottom: 2.5rem;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2.2rem;
+  padding-top: 3rem;
+}
+
+.hero-left {
+  flex: 1.2;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* =================== TYPOGRAPHY =================== */
+
+h1 {
+  font-size: 1.8rem;
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.03em;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 0.8rem 0 0.2rem;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 0 0 0.7rem;
+}
+
+p {
+  margin: 0.2rem 0 0.2rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* =================== BUTTONS =================== */
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+button {
+  border-radius: 999px;
+  border: none;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background var(--transition-fast), transform var(--transition-fast),
+    box-shadow var(--transition-fast), color var(--transition-fast);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.08);
+}
+
+button.primary {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+button.warn {
+  background: var(--accent-orange);
+  color: #ffffff;
+}
+
+button.muted {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+button.secondary {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.18);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18);
+}
+
+/* =================== CARDS =================== */
+
+.card {
+  background: var(--bg-card-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.1rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(194, 205, 220, 0.24);
+  backdrop-filter: blur(10px);
+}
+
+.hero-card {
+  max-width: 320px;
+}
+
+.hero-card ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.hero-card li + li {
+  margin-top: 0.35rem;
+}
+
+/* =================== PORTAL GRID =================== */
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(380px, 1fr));  /* wider columns */
+  gap: 2.5rem;                                           /* space between cards */
+  justify-content: center;                               /* keep grid centered */
+}
+
+
+.portal {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 0.9rem 0.9rem 0.7rem;
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid #e5efff;
+  min-height: 420px;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+
+.portal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.25);
+  border-color: #296cbf;
+}
+
+.tile-img {
+  width: 100%;
+  height: 220px;                   /* image height inside the tile */
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #e5efff;
+  margin-bottom: 0.75rem;
+}
+
+.portal p {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  flex: 1;                         /* text area grows, badges pinned at bottom */
+}
+
+.meta {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.badge {
+  font-size: 0.72rem;
+  padding: 0.17rem 0.55rem;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+/* =================== SPLASH INTRO =================== */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* soft blue + warm light, matching main artwork */
+  background:
+    radial-gradient(1200px 800px at 15% 0%,
+      rgba(170, 215, 255, 0.85),
+      rgba(250, 230, 205, 0.96)
+    ),
+    #dcefff;
+
+  color: #082f49;
+  overflow: hidden;
+  transition: opacity 0.7s ease;
+}
+
+.splash.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-inner {
+  position: relative;
+  text-align: center;
+  padding: 2.5rem 3.5rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.28);
+  backdrop-filter: blur(8px);
+}
+
+/* SARA text */
+.sara-logo {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  font-size: 3.2rem;
+  letter-spacing: 0.45em;
+  text-indent: 0.45em;
+  font-weight: 800;
+  margin: 0 0 0.4rem;
+  color: #0f172a;
+  text-transform: uppercase;
+
+  opacity: 0;
+  transform: translateY(10px);
+  animation: saraLogoIn 0.8s ease-out 0.6s forwards;
+}
+
+.sara-tagline {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1f2933;
+
+  opacity: 0;
+  transform: translateY(8px);
+  animation: saraTaglineIn 0.7s ease-out 1s forwards;
+}
+
+/* radiating lines */
+.sara-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sara-lines .line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    rgba(56, 189, 248, 0.1),
+    rgba(56, 189, 248, 1)
+  );
+  transform-origin: left center;
+  opacity: 0;
+  border-radius: 999px;
+}
+
+.line-1 {
+  transform: translate(-50%, -50%) rotate(-10deg);
+  animation: lineGrow 1.2s ease-out 0s forwards;
+}
+.line-2 {
+  transform: translate(-50%, -50%) rotate(80deg);
+  animation: lineGrow 1.2s ease-out 0.08s forwards;
+}
+.line-3 {
+  transform: translate(-50%, -50%) rotate(190deg);
+  animation: lineGrow 1.2s ease-out 0.16s forwards;
+}
+.line-4 {
+  transform: translate(-50%, -50%) rotate(280deg);
+  animation: lineGrow 1.2s ease-out 0.24s forwards;
+}
+
+/* animations */
+@keyframes lineGrow {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  70% {
+    width: 280px;
+    opacity: 1;
+  }
+  100% {
+    width: 320px;
+    opacity: 0.25;
+  }
+}
+
+@keyframes saraLogoIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    letter-spacing: 0.8em;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 0.45em;
+  }
+}
+
+@keyframes saraTaglineIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =================== RESPONSIVE =================== */
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-right {
+    justify-content: flex-start;
+  }
+
+  .hero-card {
+    max-width: none;
+  }
+
+  .portal-grid {
+    grid-template-columns: 1fr;   /* stack tiles on small screens */
+  }
+
+  .portal {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-inline: 1rem;
+  }
+
+  .sara-logo {
+    font-size: 2.4rem;
+    letter-spacing: 0.32em;
+  }
+
+  .splash-inner {
+    padding: 2rem 2.4rem;
+  }
+}
+
+/* ========== WAREHOUSE PAGE LAYOUT ========== */
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.page-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+}
+
+.page-title {
+  font-size: 1.7rem;
+  margin: 0 0 0.2rem;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.header-right .link {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e2e8f0;
+}
+
+.warehouse-main {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.warehouse-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 1.6rem;
+  margin-top: 1.8rem;
+  margin-bottom: 1.8rem;
+}
+
+.warehouse-card {
+  backdrop-filter: blur(8px);
+}
+
+.warehouse-draft {
+  margin-bottom: 2.5rem;
+}
+
+/* grid for three inputs in Quick Add */
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr 1.3fr;
+  gap: 0.8rem;
+  margin: 1rem 0 0.8rem;
+}
+
+.form-row-3 label {
+  display: block;
+  font-size: 0.78rem;
+  color: #4b5563;
+  margin-bottom: 0.15rem;
+}
+
+.form-row-3 input {
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.85rem;
+}
+
+/* drop zone */
+.dz {
+  margin-top: 0.8rem;
+  padding: 1.4rem 1rem;
+  border-radius: 14px;
+  border: 1.8px dashed rgba(148, 163, 184, 0.9);
+  background: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  font-size: 0.86rem;
+  color: #4b5563;
+  cursor: pointer;
+  transition: border-color var(--transition-fast),
+    background var(--transition-fast), transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.dz.dragover {
+  border-color: #2563eb;
+  background: rgba(219, 234, 254, 0.96);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.28);
+  transform: translateY(-2px);
+}
+
+/* table tweaks */
+.table th,
+.table td {
+  font-size: 0.85rem;
+  padding: 0.45rem 0.5rem;
+}
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.85rem;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .warehouse-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ========== SHARED PORTAL LAYOUT (Warehouse / Relief / Gov) ========== */
+
+/* small header tile with square image (used in warehouse + relief) */
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.tile img {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid #e6f3ff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+}
+
+/* shell for inner portal pages */
+.portal-shell {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+/* 2-column row used on warehouse + relief + gov */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.6rem;
+  margin-bottom: 1.8rem;
+}
+
+/* span helpers (gov uses span-6, relief uses span-7/span-5) */
+.span-7 { grid-column: 1 / span 1; }
+.span-5 { grid-column: 2 / span 1; }
+.span-6 { grid-column: span 1; }
+
+/* generic grid for small inline form fields */
+.grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.78rem;
+  color: #4b5563;
+}
+
+.grid input,
+.grid select {
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.85rem;
+}
+
+/* row of buttons (Add to Draft / Clear / etc.) */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+/* subtle muted text + inline link style */
+.muted {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.link {
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* scrollable table wrapper for draft/alloc tables */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrap th,
+.table-wrap td {
+  padding: 0.45rem 0.5rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-wrap thead th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+/* dropzone used by relief.html (needsDz + routesDz) */
+.dropzone {
+  margin-top: 0.8rem;
+  padding: 1.1rem 1rem;
+  border-radius: 14px;
+  border: 1.8px dashed rgba(148, 163, 184, 0.9);
+  background: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  font-size: 0.86rem;
+  color: #4b5563;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.dropzone.dragover {
+  border-color: #2563eb;
+  background: rgba(219, 234, 254, 0.96);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.28);
+  transform: translateY(-2px);
+}
+
+/* responsive tweak so the two cards stack on small screens */
+@media (max-width: 900px) {
+  .portal-shell .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

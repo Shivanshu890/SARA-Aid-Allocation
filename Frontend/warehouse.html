@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>SARA — Warehouse Portal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    body{
+      background: url("bg.png") center/cover fixed no-repeat;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================= HEADER ======================= -->
+  <header class="container">
+    <div class="header-bar">
+
+      <div class="header-left">
+        <img class="page-icon" src="warehouse.jpeg" alt="Warehouse Portal">
+        <div>
+          <h1 class="page-title">Warehouse Portal</h1>
+          <p class="page-subtitle">
+            Form or CSV/JSON. Add to build your draft, then submit to the backend.
+          </p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="index.html" class="link">← Home</a>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ======================= MAIN ======================= -->
+  <main class="warehouse-main container">
+
+    <div class="warehouse-grid">
+
+      <!-- ------------- LEFT: STOCK QUICK ADD + CSV UPLOAD -------------- -->
+      <div class="card warehouse-card">
+
+        <h3>Warehouse Stock — Quick Add</h3>
+
+        <div class="form-row-3">
+          <div>
+            <label>Warehouse Name</label>
+            <input id="wName" placeholder="Central Warehouse"/>
+          </div>
+          <div>
+            <label>City</label>
+            <input id="wCity" placeholder="Mumbai"/>
+          </div>
+          <div>
+            <label>Resources (Resource:Qty, Resource:Qty)</label>
+            <input id="wPairs" placeholder="Food:300, Water:200"/>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button id="addQuick" class="primary">Add to Draft</button>
+          <button id="clearDraft" class="muted">Clear Draft</button>
+        </div>
+
+        <p style="margin-top:0.5rem; font-size:0.82rem;">
+          Example: <b>Food:300, Water:200, Medicine:150</b> creates three rows for the same
+          warehouse and city.
+        </p>
+
+        <hr style="margin:1rem 0; opacity:0.3">
+
+        <h3>Upload Stock CSV / JSON</h3>
+
+        <div id="dz" class="dz">
+          Drop <b>warehouse.csv / .json</b> here or click to browse
+        </div>
+        <input id="file" type="file" accept=".csv,.json" hidden/>
+
+        <div class="btn-row" style="margin-top:0.7rem;">
+          <button id="addLoaded" class="warn" disabled>Add loaded rows</button>
+        </div>
+
+        <p style="font-size:0.8rem; margin-top:0.6rem;">
+          CSV header:
+          <code>WarehouseName,City,Resource,Quantity</code>
+        </p>
+
+      </div>
+
+
+      <!-- ---------------- RIGHT: ROUTES FORM + CSV UPLOAD -------------------- -->
+      <div class="card warehouse-card">
+        <h3>Routes (for Dijkstra shortest paths)</h3>
+
+        <p style="font-size:0.85rem; color:#475569;">
+          Define how cities are connected. Government Dashboard uses these routes for
+          shortest-path calculations.
+        </p>
+
+        <!-- Quick Add Route -->
+        <div class="form-row-3">
+          <div>
+            <label>From City</label>
+            <input id="routeFrom" placeholder="Mumbai"/>
+          </div>
+          <div>
+            <label>To City</label>
+            <input id="routeTo" placeholder="Thane"/>
+          </div>
+          <div>
+            <label>Distance (km)</label>
+            <input id="routeDist" type="number" min="0" step="0.1" placeholder="25"/>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button id="addRoute" class="primary">Add Route</button>
+          <button id="clearRoutes" class="muted">Clear Routes Draft</button>
+        </div>
+
+        <hr style="margin:1rem 0; opacity:0.3">
+
+        <!-- CSV / JSON Upload for routes -->
+        <h4 style="margin:0 0 0.4rem;">Upload Routes CSV / JSON</h4>
+
+        <div id="dzRoutes" class="dz">
+          Drop <b>routes.csv / .json</b> here or click to browse
+        </div>
+        <input id="fileRoutes" type="file" accept=".csv,.json" hidden/>
+
+        <div class="btn-row" style="margin-top:0.7rem;">
+          <button id="uploadRoutesBtn" class="primary" disabled>Save routes to server</button>
+        </div>
+
+        <p style="font-size:0.8rem; margin-top:0.6rem;">
+          CSV header:
+          <code>From,To,DistanceKm</code><br>
+          Example: <b>Mumbai,Thane,25</b>
+        </p>
+
+        <p id="routesStatus" style="font-size:0.82rem; color:#475569; margin-top:0.4rem;">
+          No routes in draft yet.
+        </p>
+
+        <div class="table-wrap" style="margin-top:0.6rem;">
+          <table class="table" id="routesDraft">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Distance (km)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ======================= STOCK DRAFT TABLE ======================= -->
+    <section class="card warehouse-card warehouse-draft">
+      <h3>Stock Draft (to be submitted)</h3>
+
+      <div class="table-wrap">
+        <table class="table" id="draft">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Warehouse</th>
+              <th>City</th>
+              <th>Resource</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="btn-row" style="margin-top:1rem;">
+        <button id="submit" class="primary">Submit Stock to Server</button>
+        <a href="index.html" class="link">← Back</a>
+        <span id="msg" style="color:#0b7285; font-weight:700;"></span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script type="module" src="warehouse.js"></script>
+
+</body>
+</html>

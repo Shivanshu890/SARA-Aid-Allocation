@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SARA — Portals</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= SPLASH INTRO ================= -->
+  <div class="splash">
+    <div class="splash-inner">
+      <div class="sara-lines">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+        <span class="line line-4"></span>
+      </div>
+
+      <h1 class="sara-logo">SARA</h1>
+      <p class="sara-tagline">Smart Aid Routing &amp; Allocation</p>
+    </div>
+  </div>
+  <!-- =============== END SPLASH INTRO =============== -->
+
+  <!-- HERO -->
+  <section class="container hero">
+    <div class="hero-left">
+      <h1>SARA — Smart Aid Routing &amp; Allocation</h1>
+      <p><strong>
+        Plan fair, fast, practical disaster relief. Warehouses share stock, relief centers share
+        needs and urgency, and officials review a clear plan with optimized routes.
+      </strong></p>
+
+      <div class="hero-cta">
+        <a href="warehouse.html"><button class="primary">Go to Warehouse Portal</button></a>
+        <a href="relief.html"><button class="warn">Go to Relief Center Portal</button></a>
+        <a href="gov-login.html"><button class="muted">Government Login</button></a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="card hero-card">
+        <h3>Demo tips</h3>
+        <ol>
+          <li><b>Warehouse Portal</b>: upload/add warehouse stocks (CSV / JSON / form).</li>
+          <li><b>Relief Center Portal</b>: add people, needs, urgency, and affected areas.</li>
+          <li><b>Government Dashboard</b>: run allocation (with Dijkstra routes) and publish.</li>
+          <li>Check <b>“Met / Partial / Unmet”</b>, total coverage %, per-resource charts, and
+            route distances.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAL CARDS -->
+  <section class="container section">
+    <div class="portal-grid">
+
+      <a class="portal" href="warehouse.html">
+        <img class="tile-img" src="warehouse.jpeg" alt="Warehouse / trucks" />
+        <h2>Warehouse Portal</h2>
+        <p>
+          Upload or add stock (CSV / JSON / form). Append multiple files, then submit as a batch.
+        </p>
+        <div class="meta">
+          <span class="badge">Food</span>
+          <span class="badge">Water</span>
+          <span class="badge">Medicine</span>
+        </div>
+      </a>
+
+      <a class="portal" href="relief.html">
+        <img class="tile-img" src="relief.jpeg" alt="Relief operations" />
+        <h2>Relief Center Portal</h2>
+        <p>
+          Enter needs, people counts, and urgency levels. Capture multiple centers and areas.
+        </p>
+        <div class="meta">
+          <span class="badge">Urgency</span>
+          <span class="badge">People</span>
+        </div>
+      </a>
+
+      <a class="portal" href="gov-login.html">
+        <img class="tile-img" src="Background.png" alt="Government dashboard & routes" />
+        <h2>Government Dashboard</h2>
+        <p>
+          Inspect totals, run allocation with Dijkstra routes, and publish a snapshot for teams.
+        </p>
+        <div class="meta">
+          <span class="badge">Run</span>
+          <span class="badge">Publish</span>
+          <span class="badge">KPIs</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Splash timing -->
+  <script>
+    window.addEventListener("load", () => {
+      const splash = document.querySelector(".splash");
+      if (!splash) return;
+
+      // let the line + text animations play
+      setTimeout(() => {
+        splash.classList.add("hide");
+      }, 2600);
+
+      // remove from DOM after fade
+      setTimeout(() => {
+        if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+      }, 3400);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SARA — Relief Center Portal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body class="has-bg">
+  <!-- HEADER: small tile, exactly like warehouse -->
+  <header class="container">
+    <div class="tile">
+      <!-- small square image, NOT a giant banner -->
+      <img src="relief.jpeg" alt="Relief tents" />
+      <div>
+        <h1>Relief Center Portal</h1>
+        <p>Enter needs via form or CSV/JSON, build a draft, then submit to the server.</p>
+        <a href="index.html" class="link">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT: same 2-column row as warehouse -->
+  <main class="container portal-shell">
+    <section class="row">
+      <!-- LEFT CARD: form + CSV/JSON, identical structure to warehouse -->
+      <div class="card span-7">
+        <h3>Relief Needs (Form / CSV / JSON)</h3>
+        <p class="muted">
+          Quick Add creates rows for a single center or area. CSV / JSON can add many centers at once.
+        </p>
+
+        <h4 style="margin-top:1rem;">Quick Add (single center / area)</h4>
+        <div class="grid">
+          <label>
+            Name (area / center)
+            <input id="rName" placeholder="Juhu Relief Center" />
+          </label>
+          <label>
+            City
+            <input id="rCity" placeholder="Mumbai" />
+          </label>
+          <label>
+            People affected
+            <input id="rPeople" type="number" min="0" placeholder="120" />
+          </label>
+          <label>
+            Urgency (0–100)
+            <input id="rUrg" type="number" min="0" max="100" placeholder="90" />
+          </label>
+        </div>
+
+        <label style="margin-top:0.6rem; display:block;">
+          Needs (Resource:Qty; Resource:Qty)
+          <input id="rPairs" placeholder="Food:120; Water:60; Medicine:40" />
+        </label>
+
+        <div class="btn-row" style="margin-top:0.7rem;">
+          <button id="addQuick" class="primary">Add to Draft</button>
+          <button id="clearDraft" class="muted">Clear Draft</button>
+        </div>
+
+        <hr style="margin:1.3rem 0; border:none; border-top:1px dashed #e2e8f0;" />
+
+        <h4>Upload CSV / JSON</h4>
+        <div id="needsDz" class="dropzone">
+          <div>Drop <b>relief.csv / .json</b> here or click to browse</div>
+        </div>
+        <input type="file" id="needsFile" accept=".csv,.json" hidden />
+
+        <div class="btn-row" style="margin-top:0.6rem;">
+          <button id="addLoaded" class="warn" disabled>Add loaded rows</button>
+        </div>
+
+        <p class="muted">
+          CSV header:
+          <code>
+            AreaName,City,Resource1,Qty1,Resource2,Qty2,Resource3,Qty3,People,Urgency
+          </code>
+        </p>
+      </div>
+
+      <!-- RIGHT CARD: routes upload, same as warehouse routes card -->
+      <div class="card span-5">
+        <h3>Optional: Routes Upload (for Dijkstra)</h3>
+        <p class="muted">
+          Upload a <code>routes.csv</code> or JSON graph of cities. The backend uses it to compute
+          shortest paths between warehouses and relief centers.
+        </p>
+
+        <div id="routesDz" class="dropzone">
+          <div>Drop <b>routes.csv / .json</b> here or click to browse</div>
+        </div>
+        <input type="file" id="routesFile" accept=".csv,.json" hidden />
+
+        <div class="btn-row" style="margin-top:0.6rem;">
+          <button id="saveRoutes" class="secondary">Save routes to server</button>
+        </div>
+
+        <p class="muted">
+          CSV header: <code>From,To,DistanceKm</code><br />
+          Example: <code>Mumbai,Thane,25</code>
+        </p>
+        <p id="routesMsg" class="muted">No routes file loaded yet.</p>
+      </div>
+    </section>
+
+    <!-- DRAFT TABLE, same pattern as warehouse -->
+    <section class="card section">
+      <h3>Draft (to be submitted)</h3>
+      <p class="muted">
+        Each resource for a center/area becomes a separate row. On submit, rows are grouped back
+        into <code>areas[]</code> for the backend.
+      </p>
+
+      <div class="table-wrap">
+        <table id="draft">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>City</th>
+              <th>Resource</th>
+              <th>Qty</th>
+              <th>People</th>
+              <th>Urgency</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="btn-row">
+        <button id="submit" class="primary">Submit to Server</button>
+        <a href="index.html" class="link">← Back</a>
+        <span id="msg" style="color:#0b7285;font-weight:700;margin-left:0.75rem;"></span>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="relief.js"></script>
+</body>
+</html>

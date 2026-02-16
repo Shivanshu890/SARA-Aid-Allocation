@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SARA — Government Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container" style="max-width:480px;margin-top:4rem;">
+    <div class="card">
+      <h1 class="page-title" style="margin-bottom:0.4rem;">Government Login</h1>
+      <p class="page-subtitle">Enter demo credentials to open the dashboard.</p>
+
+      <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:0.8rem;">
+        <label>
+          <span style="font-size:0.8rem;color:#4b5563;">Username</span>
+          <input id="user"
+                 style="width:100%;padding:0.45rem 0.6rem;border-radius:8px;border:1px solid #cbd5e1;" />
+        </label>
+        <label>
+          <span style="font-size:0.8rem;color:#4b5563;">Password</span>
+          <input id="pass" type="password"
+                 style="width:100%;padding:0.45rem 0.6rem;border-radius:8px;border:1px solid #cbd5e1;" />
+        </label>
+      </div>
+
+      <div class="btn-row" style="margin-top:1.2rem;display:flex;gap:0.6rem;align-items:center;">
+        <button id="loginBtn" class="primary">Login</button>
+        <a href="index.html" class="link">← Back</a>
+      </div>
+
+      <p id="err" style="color:#b91c1c;font-size:0.8rem;margin-top:0.6rem;"></p>
+      <p style="font-size:0.75rem;color:#6b7280;margin-top:0.4rem;">
+        Demo credentials: <b>admin / admin</b>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('loginBtn').onclick = function () {
+      const u = document.getElementById('user').value.trim();
+      const p = document.getElementById('pass').value.trim();
+      const err = document.getElementById('err');
+
+      if (u === 'admin' && p === 'admin') {
+        // IMPORTANT: match your actual dashboard file name
+        window.location.href = 'gov.html';
+      } else {
+        err.textContent = 'Invalid username or password.';
+      }
+    };
+  </script>
+</body>
+</html>

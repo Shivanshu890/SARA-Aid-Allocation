@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>SARA — Government Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="gov.css"/>
+
+  <!-- Charts + CSV parser -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="container header">
+    <div class="brand">
+      <h1>SARA — Government Dashboard</h1>
+      <p>View system status, run allocation, inspect routes, and publish snapshots.</p>
+    </div>
+    <nav class="topnav">
+      <a href="index.html" class="link">Home</a>
+      <button id="runBtn" class="primary">Run Allocation</button>
+      <button id="publishBtn" class="warn">Publish Snapshot</button>
+    </nav>
+  </header>
+
+  <main class="container gov-main">
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="routes">Routes</button>
+      <button class="tab" data-tab="data">Allocations</button>
+    </div>
+
+    <!-- ========== OVERVIEW TAB ========== -->
+    <section id="tab-overview" class="tabpane active">
+      <div class="row">
+        <div class="card span-6">
+          <h3>Key Indicators</h3>
+          <div id="kpis" class="kpis">
+            <div class="kpi">
+              <span class="kpi-label">Total Requested</span>
+              <span id="kpi-req" class="kpi-val">0</span>
+            </div>
+            <div class="kpi">
+              <span class="kpi-label">Total Allocated</span>
+              <span id="kpi-alloc" class="kpi-val">0</span>
+            </div>
+            <div class="kpi">
+              <span class="kpi-label">Coverage</span>
+              <span id="kpi-cov" class="kpi-val">0%</span>
+            </div>
+          </div>
+
+          <canvas id="barChart" height="180" aria-label="Resource chart"></canvas>
+          <p id="msg" class="muted" style="margin-top:8px;">Ready.</p>
+        </div>
+
+        <div class="card span-6">
+          <h3>Route Visualization</h3>
+          <div class="controls">
+            <label>Color by
+              <select id="colorMode">
+                <option value="status">Status</option>
+                <option value="resource">Resource</option>
+              </select>
+            </label>
+          </div>
+          <div class="map-wrap">
+            <canvas id="routeCanvas"></canvas>
+          </div>
+          <div class="legend">
+            <span class="chip">Line width = Allocated qty</span>
+            <span class="chip">Label = Distance (km)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ROUTES TAB ========== -->
+    <section id="tab-routes" class="tabpane">
+      <div class="row">
+        <div class="card span-6">
+          <h3>Import Routes</h3>
+          <div id="dz" class="dz">Drop <b>routes.csv/.json</b> here or click to select</div>
+          <input id="file" type="file" accept=".csv,.json" hidden/>
+          <div class="btn-row">
+            <button id="btn-add" disabled>Add loaded rows</button>
+            <button id="btn-save" class="primary">Save to Server</button>
+          </div>
+          <p class="muted">CSV header: <code>From,To,DistanceKm</code></p>
+        </div>
+
+        <div class="card span-6">
+          <h3>Add Edge (Manual)</h3>
+          <div class="grid">
+            <label>From City<input id="fromCity" placeholder="e.g., Mumbai"/></label>
+            <label>To City<input id="toCity" placeholder="e.g., Thane"/></label>
+            <label>Distance (km)<input id="dist" type="number" min="0" step="0.1" placeholder="22"/></label>
+          </div>
+          <div class="btn-row">
+            <button id="btn-add-edge">Add Edge</button>
+            <button id="btn-clear">Clear All (unsaved)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="card span-6">
+          <h3>Test Shortest Path (local)</h3>
+          <div class="grid">
+            <label>Start<select id="spStart"></select></label>
+            <label>End<select id="spEnd"></select></label>
+          </div>
+          <div class="btn-row">
+            <button id="btn-test">Run Dijkstra</button>
+          </div>
+          <p id="spOut" class="muted">Pick two cities and test.</p>
+        </div>
+
+        <div class="card span-6">
+          <h3>Network Preview</h3>
+          <div class="map-wrap">
+            <canvas id="cv"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Current Edges (<span id="count">0</span>)</h3>
+        <div class="table-wrap">
+          <table id="routesTable">
+            <thead>
+              <tr><th>#</th><th>From</th><th>To</th><th>Distance</th><th></th></tr>
+            </thead>
+            <tbody id="tbl"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DATA TAB ========== -->
+    <section id="tab-data" class="tabpane">
+      <div class="card">
+        <h3>Allocations</h3>
+        <div class="filters grid">
+          <label>City<select id="fCity"><option value="">All</option></select></label>
+          <label>Area<select id="fArea"><option value="">All</option></select></label>
+        </div>
+        <div class="table-wrap">
+          <table id="alloc">
+            <thead>
+              <tr>
+                <th>SourceType</th><th>Source</th>
+                <th>DestType</th><th>Destination</th>
+                <th>Resource</th><th>Allocated</th>
+                <th>Status</th><th>DistanceKm</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="btn-row right">
+          <button id="downloadBtn" class="secondary">Download CSV</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="gov.js"></script>
+</body>
+</html>

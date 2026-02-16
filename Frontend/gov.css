@@ -1,0 +1,314 @@
+/* ======= GOVERNMENT DASHBOARD LAYOUT ======= */
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .brand h1 {
+    margin: 0 0 0.3rem;
+    font-size: 1.7rem;
+  }
+  
+  .brand p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  
+  .topnav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  
+  .topnav .link {
+    font-size: 0.86rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e2e8f0;
+  }
+  
+  /* container tweak just for dashboard */
+  .gov-main {
+    margin-bottom: 3rem;
+  }
+  
+  /* TABS */
+  
+  .tabs {
+    display: inline-flex;
+    gap: 0.4rem;
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.05);
+    margin-bottom: 1.5rem;
+  }
+  
+  .tab {
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #4b5563;
+  }
+  
+  .tab.active {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.16);
+  }
+  
+  .tabpane {
+    display: none;
+  }
+  
+  .tabpane.active {
+    display: block;
+  }
+  
+  /* GRID / ROWS */
+  
+  .row {
+    display: flex;
+    gap: 1.4rem;
+    margin-bottom: 1.6rem;
+  }
+  
+  .span-6 {
+    flex: 1;
+  }
+  
+  /* KPIs */
+  
+  .kpis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .kpi {
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    background: rgba(248, 250, 252, 0.96);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    min-width: 140px;
+  }
+  
+  .kpi-label {
+    display: block;
+    font-size: 0.74rem;
+    color: #6b7280;
+  }
+  
+  .kpi-val {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  /* MAP + CONTROLS */
+  
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+    font-size: 0.82rem;
+  }
+  
+  .controls select {
+    margin-left: 0.3rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.8rem;
+  }
+  
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.02);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+  }
+  
+  .map-wrap canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  .legend {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+  }
+  
+  .chip {
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    background: #e5f2ff;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+  }
+  
+  /* TABLE + FILTERS */
+  
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.92);
+  }
+  
+  .table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-wrap th,
+  .table-wrap td {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+  }
+  
+  .table-wrap th {
+    background: #f9fafb;
+    font-weight: 600;
+  }
+  
+  .filters {
+    margin-bottom: 0.8rem;
+  }
+  
+  .filters select {
+    margin-top: 0.2rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.82rem;
+  }
+  
+  /* status badge */
+  
+  .status {
+    display: inline-block;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+  }
+  
+  .status.met {
+    background: #dcfce7;
+    color: #166534;
+  }
+  
+  .status.partial {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  .status.unmet {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  
+  /* generic helpers */
+  
+  .btn-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    margin-top: 0.9rem;
+  }
+  
+  .btn-row.right {
+    justify-content: flex-end;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+  
+  .grid label {
+    font-size: 0.8rem;
+    color: #4b5563;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .grid input,
+  .grid select {
+    padding: 0.35rem 0.55rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.85rem;
+  }
+  
+  /* drag & drop zone (reuses look from warehouse) */
+  .dz {
+    margin-top: 0.8rem;
+    padding: 1.4rem 1rem;
+    border-radius: 14px;
+    border: 1.8px dashed rgba(148, 163, 184, 0.9);
+    background: rgba(255, 255, 255, 0.88);
+    text-align: center;
+    font-size: 0.86rem;
+    color: #4b5563;
+    cursor: pointer;
+    transition: border-color 0.18s ease-out,
+      background 0.18s ease-out, transform 0.18s ease-out,
+      box-shadow 0.18s ease-out;
+  }
+  
+  .dz.dragover {
+    border-color: #2563eb;
+    background: rgba(219, 234, 254, 0.96);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.28);
+    transform: translateY(-2px);
+  }
+  
+  /* responsive tweaks */
+  
+  @media (max-width: 960px) {
+    .row {
+      flex-direction: column;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+  
+    .tabs {
+      width: 100%;
+      justify-content: space-between;
+    }
+  
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  
+    .map-wrap {
+      height: 220px;
+    }
+  }
+  
